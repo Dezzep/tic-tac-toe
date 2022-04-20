@@ -9,30 +9,57 @@ const gameBoard = (() => {
   boardLayout.map(id => `#${id}`).join(', ')
 );
   
-  console.log(tiles);
+  
   
   return{
-    boardLayout
+    tiles
   };
 
 })();
 
-const moduleTest = (() => {
- 
+const gameFlow = (() => {
+  const tileArray = gameBoard.tiles;
+  let player1Turn = true;
+  
+  for (let i = 0; i < tileArray.length; i++) {
+    (function(index) {
+      tileArray[index].addEventListener("click", function() {
+        
+        selectX = player1.playerMove();
+        selectO = player2.playerMove();
+       
+        
+        let that = this;
+        console.log(that.innerText);
+       
+
+        if (player1Turn === true && that.innerText === ''){
+          this.innerText = `${selectX}`;
+          player1Turn = false;
+        }
+        else if(that.innerText === ''){
+          this.innerText = `${selectO}`;
+          player1Turn = true;
+        }
+      })   
+    })(i);
+  }
+
  
 })();
-console.log(gameBoard.boardLayout)
 //create a module for displayController
 
 //create a factory for players
-
-const createPlayer = () => {
-  let movesPlayed = 0;
-  return() => {
-    console.log(movesPlayed);
-    movesPlayed++;
+let count = 0;
+const Player = (value) => {
+  
+  const playerMove = () =>{ 
+    return(value);
+  }
+  return{playerMove}
   }
 
-}
 
 
+  const player1 = Player('X');
+  const player2 = Player('O');
