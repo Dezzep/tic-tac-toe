@@ -8,58 +8,46 @@ const gameBoard = (() => {
   const tiles = document.querySelectorAll(
   boardLayout.map(id => `#${id}`).join(', ')
 );
-  
-  
-  
-  return{
-    tiles
-  };
-
+  return{tiles};
 })();
-
+//plays the game.
 const gameFlow = (() => {
   const tileArray = gameBoard.tiles;
   let player1Turn = true;
-  
   for (let i = 0; i < tileArray.length; i++) {
     (function(index) {
-      tileArray[index].addEventListener("click", function() {
-        
+        tileArray[index].addEventListener("click", function() {
         selectX = player1.playerMove();
         selectO = player2.playerMove();
-       
-        
-        let that = this;
-        console.log(that.innerText);
-       
-
-        if (player1Turn === true && that.innerText === ''){
+        let that = this; //id's of tiles
+          if (player1Turn === true && that.innerText === ''){
           this.innerText = `${selectX}`;
           player1Turn = false;
         }
-        else if(that.innerText === ''){
+          else if(that.innerText === ''){
           this.innerText = `${selectO}`;
           player1Turn = true;
-        }
-      })   
+          }
+      })  
     })(i);
-  }
-
- 
+  } 
+  const restartGame = (() => {
+    const resetButton = document.querySelector("#reset");
+    resetButton.addEventListener("click", function(){
+      for(i of tileArray){
+        i.innerText = '';
+        player1Turn = true; // X always starts
+      }
+    });
+  })();
 })();
-//create a module for displayController
-
 //create a factory for players
-let count = 0;
 const Player = (value) => {
-  
   const playerMove = () =>{ 
     return(value);
   }
   return{playerMove}
   }
 
-
-
-  const player1 = Player('X');
+  const player1 = Player('X'); // X and O can be any char
   const player2 = Player('O');

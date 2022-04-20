@@ -30,4 +30,22 @@ body{
   display:flex;
   justify-content: center;
   align-items: center;
+
+  &:hover{
+    background-color: rgba(#fcfc, 0.2);
+  }
+}
+
+button{
+  padding-left: 1rem;
+  padding-right:1rem;
+  background-color: rgba(#fcfc, 0.6);
+  padding-top: .2rem;
+  padding-bottom: .2rem;
+  font-size: 1.5rem;
+
+  &:hover{
+    background-color: #fcfc;
+    cursor: pointer;
+  }
 }

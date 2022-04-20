@@ -30,5 +30,21 @@ body {
   justify-content: center;
   align-items: center;
 }
+#top0:hover, #top1:hover, #top2:hover, #mid0:hover, #mid1:hover, #mid2:hover, #bot0:hover, #bot1:hover, #bot2:hover {
+  background-color: rgba(255, 204, 255, 0.2);
+}
+
+button {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background-color: rgba(255, 204, 255, 0.6);
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  font-size: 1.5rem;
+}
+button:hover {
+  background-color: rgba(255, 204, 255, 0.8);
+  cursor: pointer;
+}
 
 /*# sourceMappingURL=style.css.map */
