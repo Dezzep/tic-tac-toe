@@ -4,7 +4,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 15em;
+  gap: 4em;
 }
 
 .tic-tac-toe {
@@ -12,6 +12,17 @@ body {
   grid-template-columns: 1fr 1fr 1fr;
   height: 40em;
   width: 40em;
+}
+@media (max-width: 600px) {
+  .tic-tac-toe {
+    width: 20em;
+  }
+}
+@media (max-height: 1000px) {
+  .tic-tac-toe {
+    height: 20em;
+    width: 20em;
+  }
 }
 
 #top0, #top1, #top2, #mid0, #mid1, #mid2 {
@@ -30,6 +41,21 @@ body {
   justify-content: center;
   align-items: center;
 }
+@media (max-height: 1000px) {
+  #top0, #top1, #top2, #mid0, #mid1, #mid2, #bot0, #bot1, #bot2 {
+    height: 2.2em;
+  }
+}
+@media (max-width: 600px) {
+  #top0, #top1, #top2, #mid0, #mid1, #mid2, #bot0, #bot1, #bot2 {
+    height: 2.2em;
+  }
+}
+@media (max-width: 600px) and (min-height: 1000px) {
+  #top0, #top1, #top2, #mid0, #mid1, #mid2, #bot0, #bot1, #bot2 {
+    height: 5em;
+  }
+}
 #top0:hover, #top1:hover, #top2:hover, #mid0:hover, #mid1:hover, #mid2:hover, #bot0:hover, #bot1:hover, #bot2:hover {
   background-color: rgba(255, 204, 255, 0.2);
 }
@@ -41,6 +67,12 @@ button {
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
   font-size: 1.5rem;
+  margin: 5em;
+}
+@media (max-height: 1000px) {
+  button {
+    margin: 0.5em;
+  }
 }
 button:hover {
   background-color: rgba(255, 204, 255, 0.8);

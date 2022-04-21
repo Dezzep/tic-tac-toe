@@ -1,13 +1,37 @@
 
 //Create a module for GameBoard
 const gameBoard = (() => {
-  const boardLayout = ['top0', 'top1', 'top2',
+  const hideThis = document.getElementsByClassName('game-playing');
+  const beforeGame = document.getElementsByClassName('before-game');
+  const _boardLayout = ['top0', 'top1', 'top2',
                        'mid0', 'mid1', 'mid2',
                        'bot0', 'bot1', 'bot2']
   const tiles = document.querySelectorAll(
-  boardLayout.map(id => `#${id}`).join(', ')
+  _boardLayout.map(id => `#${id}`).join(', ')
+  
+
 );
-  return{tiles};
+  const hideElements = () => {
+    
+    for (let i=0; i < hideThis.length; i++){
+    
+      hideThis[i].style.display = 'none';
+    }
+  }
+  const showElements = () => {
+    for (let i=0; i < hideThis.length; i++){
+    
+      hideThis[i].style.display = '';
+    }
+  }
+  const gameIsStarting = () => {
+    for (let i=0; i < beforeGame.length; i++){
+    
+      beforeGame[i].style.display = 'none';
+    }
+  }
+
+  return{tiles, hideElements, showElements, gameIsStarting};
 })();
 //plays the game.
 const gameFlow = (() => {
@@ -27,6 +51,7 @@ const gameFlow = (() => {
           _winArrayX.push(that.id);
           console.log(_winArrayX);
           _player1Turn = false;
+
           
           
           //create and array of where the X's are
@@ -132,3 +157,6 @@ const Player = (value) => {
 
   const player1 = Player('X'); // X and O can be any char
   const player2 = Player('O');
+  gameBoard.hideElements();
+  gameBoard.showElements();
+  gameBoard.gameIsStarting();
