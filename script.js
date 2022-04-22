@@ -48,7 +48,6 @@ const gameBoard = (() => {
           gameBoard.player1IsHuman = false;
           this.style.background= color;
           possibleSelections[0].style.background= 'none';
-          console.log(gameBoard.player1IsHuman);
         }
         else if (this.id === "robot2"){
           gameBoard.player2IsHuman = false;
@@ -79,10 +78,82 @@ const gameBoard = (() => {
 const gameFlow = (() => {
   const _tileArray = gameBoard.tiles;
   const resetButton = document.querySelector("#reset");
+  const _robot = () => {
+    let arrayOfEmpties = [];
+    for(i = 0; i < _tileArray.length; i++){
+      if(gameOver === true){
+        return(0);
+      }  
+      else if(_tileArray[i].innerText === ""){
+        arrayOfEmpties.push(i);
+    }
+  }
+    let robotsMove = arrayOfEmpties[Math.floor(Math.random() * arrayOfEmpties.length)]
+    
+    return (_tileArray[robotsMove]);
+  }
+  
   let _noInput = false;
   let _winArrayX = []; // an array for moves of X
   let _winArrayO = []; //an array for moves of O
   let _player1Turn = true;
+  const gameStatus = () => {        
+    //The rules for winning/ties
+    if(_winArrayX.includes('top0') &&_winArrayX.includes('top1') && _winArrayX.includes('top2')){
+      _gameOver('X')
+    }
+    else if(_winArrayX.includes('mid0') &&_winArrayX.includes('mid1') && _winArrayX.includes('mid2')){
+      _gameOver('X')
+    }
+    else if(_winArrayX.includes('bot0') &&_winArrayX.includes('bot1') && _winArrayX.includes('bot2')){
+      _gameOver('X')
+    }
+    else if(_winArrayX.includes('top0') &&_winArrayX.includes('mid0') && _winArrayX.includes('bot0')){
+      _gameOver('X')
+    }
+    else if(_winArrayX.includes('top1') &&_winArrayX.includes('mid1') && _winArrayX.includes('bot1')){
+      _gameOver('X')
+    }
+    else if(_winArrayX.includes('top2') &&_winArrayX.includes('mid2') && _winArrayX.includes('bot2')){
+      _gameOver('X')
+    }
+    else if(_winArrayX.includes('top0') &&_winArrayX.includes('mid1') && _winArrayX.includes('bot2')){
+      _gameOver('X')
+    }
+    else if(_winArrayX.includes('top2') &&_winArrayX.includes('mid1') && _winArrayX.includes('bot0')){
+      _gameOver('X')
+    }
+    
+    else if(_winArrayO.includes('top0') &&_winArrayO.includes('top1') && _winArrayO.includes('top2')){
+      _gameOver('O')
+    }
+    else if(_winArrayO.includes('mid0') &&_winArrayO.includes('mid1') && _winArrayO.includes('mid2')){
+      _gameOver('O')
+    }
+    else if(_winArrayO.includes('bot0') &&_winArrayO.includes('bot1') && _winArrayO.includes('bot2')){
+      _gameOver('O')
+    }
+    else if(_winArrayO.includes('top0') &&_winArrayO.includes('mid0') && _winArrayO.includes('bot0')){
+      _gameOver('O')
+    }
+    else if(_winArrayO.includes('top1') &&_winArrayO.includes('mid1') && _winArrayO.includes('bot1')){
+      _gameOver('O')
+    }
+    else if(_winArrayO.includes('top2') &&_winArrayO.includes('mid2') && _winArrayO.includes('bot2')){
+      _gameOver('O')
+    }
+    else if(_winArrayO.includes('top0') &&_winArrayO.includes('mid1') && _winArrayO.includes('bot2')){
+      _gameOver('O')
+    }
+    else if(_winArrayO.includes('top2') &&_winArrayO.includes('mid1') && _winArrayO.includes('bot0')){
+      _gameOver('O')
+    }
+    
+    else if (_winArrayO.length + _winArrayX.length === 9){
+      _gameOver('tie');
+    }
+  };
+  
   for (let i = 0; i < _tileArray.length; i++) {
     (function(index) {
         _tileArray[index].addEventListener("click", function() {
@@ -93,72 +164,28 @@ const gameFlow = (() => {
           this.innerText = `${_selectX}`;
           _winArrayX.push(that.id);
           _player1Turn = false;
+          _robot();
+          gameStatus();
+            
+          if (gameBoard.player2IsHuman === false && _robot() != undefined && gameOver === false && _noInput === false){
+            let choice =  _robot();
+            choice.innerText = `${_selectO}`;
+             _winArrayO.push(choice.id);
+             _player1Turn = true;
+             gameStatus();
+           } 
+          
           }
-          else if(that.innerText === '' && _noInput === false){
+          else if(that.innerText === '' && _noInput === false && gameBoard.player2IsHuman === true){
           this.innerText = `${_selectO}`;
           _winArrayO.push(that.id);
           _player1Turn = true;
-          //create an array of where the O's are
+          gameStatus();
           }
-          const gameStatus = (() => {        //put this in loop to check every time something is pressed
-            //The rules for winning/ties
-            if(_winArrayX.includes('top0') &&_winArrayX.includes('top1') && _winArrayX.includes('top2')){
-              _gameOver('X')
-            }
-            else if(_winArrayX.includes('mid0') &&_winArrayX.includes('mid1') && _winArrayX.includes('mid2')){
-              _gameOver('X')
-            }
-            else if(_winArrayX.includes('bot0') &&_winArrayX.includes('bot1') && _winArrayX.includes('bot2')){
-              _gameOver('X')
-            }
-            else if(_winArrayX.includes('top0') &&_winArrayX.includes('mid0') && _winArrayX.includes('bot0')){
-              _gameOver('X')
-            }
-            else if(_winArrayX.includes('top1') &&_winArrayX.includes('mid1') && _winArrayX.includes('bot1')){
-              _gameOver('X')
-            }
-            else if(_winArrayX.includes('top2') &&_winArrayX.includes('mid2') && _winArrayX.includes('bot2')){
-              _gameOver('X')
-            }
-            else if(_winArrayX.includes('top0') &&_winArrayX.includes('mid1') && _winArrayX.includes('bot2')){
-              _gameOver('X')
-            }
-            else if(_winArrayX.includes('top2') &&_winArrayX.includes('mid1') && _winArrayX.includes('bot0')){
-              _gameOver('X')
-            }
-            
-            else if(_winArrayO.includes('top0') &&_winArrayO.includes('top1') && _winArrayO.includes('top2')){
-              _gameOver('O')
-            }
-            else if(_winArrayO.includes('mid0') &&_winArrayO.includes('mid1') && _winArrayO.includes('mid2')){
-              _gameOver('O')
-            }
-            else if(_winArrayO.includes('bot0') &&_winArrayO.includes('bot1') && _winArrayO.includes('bot2')){
-              _gameOver('O')
-            }
-            else if(_winArrayO.includes('top0') &&_winArrayO.includes('mid0') && _winArrayO.includes('bot0')){
-              _gameOver('O')
-            }
-            else if(_winArrayO.includes('top1') &&_winArrayO.includes('mid1') && _winArrayO.includes('bot1')){
-              _gameOver('O')
-            }
-            else if(_winArrayO.includes('top2') &&_winArrayO.includes('mid2') && _winArrayO.includes('bot2')){
-              _gameOver('O')
-            }
-            else if(_winArrayO.includes('top0') &&_winArrayO.includes('mid1') && _winArrayO.includes('bot2')){
-              _gameOver('O')
-            }
-            else if(_winArrayO.includes('top2') &&_winArrayO.includes('mid1') && _winArrayO.includes('bot0')){
-              _gameOver('O')
-            }
-            
-            else if (_winArrayO.length + _winArrayX.length === 9){
-              _gameOver('tie');
-            }
-          })();
       })  
     })(i);
   } 
+  let gameOver = false;
   const restartGame = (() => {
     function resetValues(){
       for(i of _tileArray){
@@ -167,6 +194,7 @@ const gameFlow = (() => {
         _winArrayX = [];
         _winArrayO = [];
         _noInput = false;
+        gameOver = false;
       }
     }
     resetButton.addEventListener("click", function(){
@@ -179,6 +207,8 @@ const gameFlow = (() => {
     const winnerDisplay = document.getElementById("game-prompt");
     const playAgain = document.getElementById("play-again");
     const newPlayers = document.getElementById("new-players");
+    gameOver = true;
+
     resetButton.style.display = 'none';
     gameOverMessage.style.display = 'flex';
     if (winner === 'tie'){
@@ -188,7 +218,6 @@ const gameFlow = (() => {
    else{
     _noInput = true;
     winnerDisplay.innerText = `${winner} wins!`;
-    console.log(gameBoard.player1IsHuman)
   }
   playAgain.addEventListener('click', function(){ // when play again is clicked, resets board and hides own display
     resetButton.style.display = '';
@@ -202,7 +231,7 @@ const gameFlow = (() => {
     gameBoard.hideElements();
   });
 }
-return{resetButton}})();
+return{resetButton, gameOver}})();
 //create a factory for players
 const Player = (value) => {
   const playerMove = () =>{ 
