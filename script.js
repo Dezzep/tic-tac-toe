@@ -1,6 +1,7 @@
-
 //Create a module for GameBoard
 const gameBoard = (() => {
+  let player1IsHuman = true; 
+  let player2IsHuman = true;
   const hideThis = document.getElementsByClassName('game-playing');
   const beforeGame = document.getElementsByClassName('before-game');
   const _boardLayout = ['top0', 'top1', 'top2',
@@ -8,28 +9,29 @@ const gameBoard = (() => {
                        'bot0', 'bot1', 'bot2']
   const tiles = document.querySelectorAll(
   _boardLayout.map(id => `#${id}`).join(', ')
-  
-
-);
+  );
   const hideElements = () => {
-    
-    for (let i=0; i < hideThis.length; i++){
-    
+    for (let i=0; i < hideThis.length; i++){ //hides the tic tac toe display
       hideThis[i].style.display = 'none';
     }
-  }
-  const showElements = () => {
+  };
+  const showElements = () => {  // shows tic tac toe display
     for (let i=0; i < hideThis.length; i++){
-    
       hideThis[i].style.display = '';
     }
-  }
-  const gameIsStarting = () => {
+  };
+  const gameIsStarting = () => {  //hides character selection
     for (let i=0; i < beforeGame.length; i++){
-    
       beforeGame[i].style.display = 'none';
+      gameFlow.resetButton.style.display = '';
+    } 
+  };
+  const gameHasEnded = () => {
+    for (let i=0; i < beforeGame.length; i ++){
+      beforeGame[i].style.display = '';
     }
-  }
+  };
+  
   const whoIsPlaying = () => {
     const human1 = document.getElementById("human1");
     const robot1 = document.getElementById("robot1");
@@ -37,42 +39,41 @@ const gameBoard = (() => {
     const robot2 = document.getElementById("robot2");
     const button = document.getElementById("play-button");
     const color = "#4FE474";
-    let player1IsHuman = true;
-    let player2IsHuman = true;
     let possibleSelections = [human1, robot1, human2, robot2];
-
+    possibleSelections[0].style.background = color;
+    possibleSelections[2].style.background = color;
     for(i of possibleSelections){
       i.addEventListener("click", function(){   //listens for event of pressing robot pic or person pic
         if (this.id ==="robot1"){
-          player1IsHuman = false;
+          gameBoard.player1IsHuman = false;
           this.style.background= color;
           possibleSelections[0].style.background= 'none';
+          console.log(gameBoard.player1IsHuman);
         }
         else if (this.id === "robot2"){
-          player2IsHuman = false;
+          gameBoard.player2IsHuman = false;
           this.style.background = color;
           possibleSelections[2].style.background = 'none';
         }
         else if (this.id === "human1"){
-          player1IsHuman = true;
+          gameBoard.player1IsHuman = true;
           this.style.background = color;
           possibleSelections[1].style.background = 'none';
         }
         else if (this.id === "human2"){
-          player2IsHuman = true;
+          gameBoard.player2IsHuman = true;
           this.style.background = color;
           possibleSelections[3].style.background = 'none';
-          
         }
-      });
+     });
     }
     button.addEventListener('click', function(){ //takes robot or human as variable and starts the game
       showElements();
       gameIsStarting();
     });
-  }
-
-  return{tiles, hideElements, showElements, gameIsStarting, whoIsPlaying};
+    return{player1IsHuman, player2IsHuman}}
+  return{tiles, hideElements, showElements, gameIsStarting, whoIsPlaying, gameHasEnded, 
+         player1IsHuman, player2IsHuman};
 })();
 //plays the game.
 const gameFlow = (() => {
@@ -91,7 +92,6 @@ const gameFlow = (() => {
           if (_player1Turn === true && that.innerText === '' && _noInput === false){
           this.innerText = `${_selectX}`;
           _winArrayX.push(that.id);
-          console.log(_winArrayX);
           _player1Turn = false;
           }
           else if(that.innerText === '' && _noInput === false){
@@ -155,7 +155,6 @@ const gameFlow = (() => {
             else if (_winArrayO.length + _winArrayX.length === 9){
               _gameOver('tie');
             }
-            
           })();
       })  
     })(i);
@@ -179,6 +178,7 @@ const gameFlow = (() => {
     const gameOverMessage = document.getElementById("game-over-prompt");
     const winnerDisplay = document.getElementById("game-prompt");
     const playAgain = document.getElementById("play-again");
+    const newPlayers = document.getElementById("new-players");
     resetButton.style.display = 'none';
     gameOverMessage.style.display = 'flex';
     if (winner === 'tie'){
@@ -187,19 +187,22 @@ const gameFlow = (() => {
     }
    else{
     _noInput = true;
-    console.log(`${winner} wins!`)
-    
     winnerDisplay.innerText = `${winner} wins!`;
-    
-    
+    console.log(gameBoard.player1IsHuman)
   }
-  playAgain.addEventListener('click', function(){
+  playAgain.addEventListener('click', function(){ // when play again is clicked, resets board and hides own display
     resetButton.style.display = '';
     restartGame.resetValues();
-    gameOverMessage.style.display = 'none'
+    gameOverMessage.style.display = 'none';
+  });
+  newPlayers.addEventListener('click', function(){
+    restartGame.resetValues();
+    gameOverMessage.style.display = 'none';
+    gameBoard.gameHasEnded();
+    gameBoard.hideElements();
   });
 }
-})();
+return{resetButton}})();
 //create a factory for players
 const Player = (value) => {
   const playerMove = () =>{ 
@@ -208,7 +211,6 @@ const Player = (value) => {
   // add function here for player name.
   return{playerMove}
   }
-
   const player1 = Player('X'); // X and O can be any char
   const player2 = Player('O');
   gameBoard.hideElements();
