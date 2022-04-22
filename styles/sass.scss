@@ -24,6 +24,11 @@ header{
   margin-top: 1.5rem;
 }
 
+.game-playing{
+  display:flex;
+  justify-content: center;
+  margin:20px;
+}
 
 .before-game{
   display:grid;
@@ -168,3 +173,34 @@ button{
  }
 }
 
+.game-over-prompt{
+  display:none;
+  justify-content: space-around;
+  flex-direction:column;
+  align-items: center;
+
+  position:absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width:30rem;
+  height:40rem;
+  top:15%;
+  background-color: rgba($color: blue, $alpha: .8);
+
+  @media(max-width:600px){
+    width:20rem;
+  }
+  @media(max-height:1000px){
+    height:20rem;
+  }
+  button{
+    margin:0;
+    padding:.5em;
+    background-color: #fcfc;
+  }
+  h2{
+    background-color: rgba($color: white, $alpha: 0.7);
+  }
+}
