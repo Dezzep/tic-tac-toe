@@ -30,8 +30,38 @@ const gameBoard = (() => {
       beforeGame[i].style.display = 'none';
     }
   }
+  const whoIsPlaying = () => {
+    const human1 = document.getElementById("human1");
+    const robot1 = document.getElementById("robot1");
+    const human2 = document.getElementById("human2");
+    const robot2 = document.getElementById("robot2");
+    const color = "#4FE474"
+   
 
-  return{tiles, hideElements, showElements, gameIsStarting};
+    possibleSelections = [human1, robot1, human2, robot2];
+
+    for(i of possibleSelections){
+      i.addEventListener("click", function(){
+        if (this.id ==="robot1"){
+          
+          this.style.background= color;
+          possibleSelections[0].style.background= 'none';
+        }
+        else if (this.id === "robot2"){
+          
+        }
+        else if (this.id === "human1"){
+          
+          possibleSelections[1].style.background = 'none';
+        }
+        else if (this.id === "human2"){
+          
+        }
+      });
+    }
+  }
+
+  return{tiles, hideElements, showElements, gameIsStarting, whoIsPlaying};
 })();
 //plays the game.
 const gameFlow = (() => {
@@ -51,15 +81,7 @@ const gameFlow = (() => {
           _winArrayX.push(that.id);
           console.log(_winArrayX);
           _player1Turn = false;
-
-          
-          
-          //create and array of where the X's are
-          //if array location = all of tops,bots,mids -- win
-          //all of 0, 1 or 2 -- win
-          //top0 mid1 bot2 || top2 mid1 bot0 -- win
-          
-        }
+          }
           else if(that.innerText === '' && _noInput === false){
           this.innerText = `${_selectO}`;
           _winArrayO.push(that.id);
@@ -67,6 +89,7 @@ const gameFlow = (() => {
           //create an array of where the O's are
           }
           const gameStatus = (() => {        //put this in loop to check every time something is pressed
+            //The rules for winning/ties
             if(_winArrayX.includes('top0') &&_winArrayX.includes('top1') && _winArrayX.includes('top2')){
               _gameOver('X')
             }
@@ -137,7 +160,7 @@ const gameFlow = (() => {
       }
     });
   })();
-  const _gameOver = (winner) => { // the games ended because of a win or tie, disables and prompts
+  const _gameOver = (winner) => { // the games ended because of a win or tie, disables game interaction
     if (winner === 'tie'){
       console.log("It's a tie!");
       _noInput = true;
@@ -152,11 +175,12 @@ const Player = (value) => {
   const playerMove = () =>{ 
     return(value);
   }
+  // add function here for player name.
   return{playerMove}
   }
 
   const player1 = Player('X'); // X and O can be any char
   const player2 = Player('O');
   gameBoard.hideElements();
-  gameBoard.showElements();
-  gameBoard.gameIsStarting();
+  gameBoard.whoIsPlaying();
+ 

@@ -1,3 +1,17 @@
+*{
+  margin:0;
+  padding:0;
+}
+input{
+  padding:.4rem;
+  font-size:1.1rem;
+}
+label{
+  font-weight:500;
+  font-size:1em;
+  margin-right:.4rem;
+}
+
 body{
   background-color: #fcfcfc;
   display:flex;
@@ -6,9 +20,81 @@ body{
   align-items: center;
   gap:4em;
 }
+header{
+  margin-top: 1.5rem;
+}
 
 
+.before-game{
+  display:grid;
+  column-gap:10rem;
+  row-gap:2em;
+  
+ 
+  
+  grid-auto-flow: column;
+  justify-content:center;
+  align-items: center;
+  margin-left:auto;
+  padding:2rem;
 
+  border:1px solid black;
+   grid-template-areas: 
+   "p1 . img1"
+   "p2 . img2"
+   "play play play"
+   ;
+   @media(max-width:650px){
+     grid-template-areas: 
+     ". p1 ."
+     ".  img1 ."
+     ". p2 ."
+     ". img2 ."
+     "play play play"
+   }
+
+}
+.select-player{
+  display:flex;
+  flex-direction: row;
+  gap:2rem;
+  margin-left:-.5em;
+  justify-content: center;
+  align-items: center;
+
+  .player-one, .player-two{
+    display:flex;
+    flex-direction:column;
+    
+
+  }
+
+}
+#image1{
+  grid-area: img1;
+}
+#image2{
+  grid-area: img2;
+}
+#p1{
+  grid-area:p1;
+}
+#p2{
+  grid-area:p2;
+}
+#form1{
+  grid-area:form1;
+}
+#form2{
+  grid-area:form2;
+}
+#play-button{
+  grid-area:play;
+}
+#robot1,#robot2,#human1,#human2{
+  border-radius: 50px;
+  padding:.3rem;
+}
 
 .tic-tac-toe{
   display:grid;
@@ -72,4 +158,11 @@ button{
     background-color: #fcfc;
     cursor: pointer;
   }
+  #reset{
+    margin:5em;
+    @media(max-height: 1000px){
+    margin:.5em;
+  }
+ }
 }
+
