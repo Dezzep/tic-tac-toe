@@ -173,7 +173,7 @@ button{
  }
 }
 
-.game-over-prompt{
+#game-over-prompt{
   display:none;
   justify-content: space-around;
   flex-direction:column;
@@ -187,7 +187,7 @@ button{
   width:30rem;
   height:40rem;
   top:15%;
-  background-color: rgba($color: blue, $alpha: .8);
+  background-color: rgba($color: #FF9671, $alpha: .8);
 
   @media(max-width:600px){
     width:20rem;
@@ -199,8 +199,13 @@ button{
     margin:0;
     padding:.5em;
     background-color: #fcfc;
+
+    &:hover{
+      transform: scale(1.05);
+    }
   }
-  h2{
-    background-color: rgba($color: white, $alpha: 0.7);
+  h1{
+    background-color: rgba($color: #fcfc, $alpha: 1);
+    padding:1em;
   }
 }

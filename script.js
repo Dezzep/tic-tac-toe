@@ -77,6 +77,7 @@ const gameBoard = (() => {
 //plays the game.
 const gameFlow = (() => {
   const _tileArray = gameBoard.tiles;
+  const resetButton = document.querySelector("#reset");
   let _noInput = false;
   let _winArrayX = []; // an array for moves of X
   let _winArrayO = []; //an array for moves of O
@@ -160,8 +161,7 @@ const gameFlow = (() => {
     })(i);
   } 
   const restartGame = (() => {
-    const resetButton = document.querySelector("#reset");
-    resetButton.addEventListener("click", function(){
+    function resetValues(){
       for(i of _tileArray){
         i.innerText = '';
         _player1Turn = true; // X always starts
@@ -169,17 +169,36 @@ const gameFlow = (() => {
         _winArrayO = [];
         _noInput = false;
       }
-    });
+    }
+    resetButton.addEventListener("click", function(){
+      resetValues();
+   });
+  return {resetValues};
   })();
   const _gameOver = (winner) => { // the games ended because of a win or tie, disables game interaction
+    const gameOverMessage = document.getElementById("game-over-prompt");
+    const winnerDisplay = document.getElementById("game-prompt");
+    const playAgain = document.getElementById("play-again");
+    resetButton.style.display = 'none';
+    gameOverMessage.style.display = 'flex';
     if (winner === 'tie'){
-      console.log("It's a tie!");
       _noInput = true;
+      winnerDisplay.innerText = "It's a tie!"
     }
    else{
     _noInput = true;
     console.log(`${winner} wins!`)
-  }}
+    
+    winnerDisplay.innerText = `${winner} wins!`;
+    
+    
+  }
+  playAgain.addEventListener('click', function(){
+    resetButton.style.display = '';
+    restartGame.resetValues();
+    gameOverMessage.style.display = 'none'
+  });
+}
 })();
 //create a factory for players
 const Player = (value) => {

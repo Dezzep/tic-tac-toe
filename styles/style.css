@@ -177,7 +177,7 @@ button #reset {
   }
 }
 
-.game-over-prompt {
+#game-over-prompt {
   display: none;
   justify-content: space-around;
   flex-direction: column;
@@ -190,25 +190,29 @@ button #reset {
   width: 30rem;
   height: 40rem;
   top: 15%;
-  background-color: rgba(0, 0, 255, 0.8);
+  background-color: rgba(255, 150, 113, 0.8);
 }
 @media (max-width: 600px) {
-  .game-over-prompt {
+  #game-over-prompt {
     width: 20rem;
   }
 }
 @media (max-height: 1000px) {
-  .game-over-prompt {
+  #game-over-prompt {
     height: 20rem;
   }
 }
-.game-over-prompt button {
+#game-over-prompt button {
   margin: 0;
   padding: 0.5em;
   background-color: rgba(255, 204, 255, 0.8);
 }
-.game-over-prompt h2 {
-  background-color: rgba(255, 255, 255, 0.7);
+#game-over-prompt button:hover {
+  transform: scale(1.05);
+}
+#game-over-prompt h1 {
+  background-color: #ffccff;
+  padding: 1em;
 }
 
 /*# sourceMappingURL=style.css.map */
