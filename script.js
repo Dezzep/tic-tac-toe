@@ -35,30 +35,41 @@ const gameBoard = (() => {
     const robot1 = document.getElementById("robot1");
     const human2 = document.getElementById("human2");
     const robot2 = document.getElementById("robot2");
-    const color = "#4FE474"
-   
-
-    possibleSelections = [human1, robot1, human2, robot2];
+    const button = document.getElementById("play-button");
+    const color = "#4FE474";
+    let player1IsHuman = true;
+    let player2IsHuman = true;
+    let possibleSelections = [human1, robot1, human2, robot2];
 
     for(i of possibleSelections){
-      i.addEventListener("click", function(){
+      i.addEventListener("click", function(){   //listens for event of pressing robot pic or person pic
         if (this.id ==="robot1"){
-          
+          player1IsHuman = false;
           this.style.background= color;
           possibleSelections[0].style.background= 'none';
         }
         else if (this.id === "robot2"){
-          
+          player2IsHuman = false;
+          this.style.background = color;
+          possibleSelections[2].style.background = 'none';
         }
         else if (this.id === "human1"){
-          
+          player1IsHuman = true;
+          this.style.background = color;
           possibleSelections[1].style.background = 'none';
         }
         else if (this.id === "human2"){
+          player2IsHuman = true;
+          this.style.background = color;
+          possibleSelections[3].style.background = 'none';
           
         }
       });
     }
+    button.addEventListener('click', function(){ //takes robot or human as variable and starts the game
+      showElements();
+      gameIsStarting();
+    });
   }
 
   return{tiles, hideElements, showElements, gameIsStarting, whoIsPlaying};

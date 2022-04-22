@@ -159,10 +159,12 @@ button{
     cursor: pointer;
   }
   #reset{
+    
     margin:5em;
     @media(max-height: 1000px){
     margin:.5em;
   }
+   
  }
 }
 
