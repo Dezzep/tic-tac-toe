@@ -1,3 +1,10 @@
+//create a factory for players
+const Player = (value) => {
+  const playerMove = () =>{ 
+    return(value);
+  }
+  return{playerMove}
+  }
 //Create a module for GameBoard
 const gameBoard = (() => {
   let player1IsHuman = true; 
@@ -31,38 +38,26 @@ const gameBoard = (() => {
       beforeGame[i].style.display = '';
     }
   };
-  
   const whoIsPlaying = () => {
     const human1 = document.getElementById("human1");
-    const robot1 = document.getElementById("robot1");
     const human2 = document.getElementById("human2");
     const robot2 = document.getElementById("robot2");
     const button = document.getElementById("play-button");
     const color = "#4FE474";
-    let possibleSelections = [human1, robot1, human2, robot2];
+    let possibleSelections = [human1,  human2, robot2];
     possibleSelections[0].style.background = color;
-    possibleSelections[2].style.background = color;
+    possibleSelections[1].style.background = color;
     for(i of possibleSelections){
       i.addEventListener("click", function(){   //listens for event of pressing robot pic or person pic
-        if (this.id ==="robot1"){
-          gameBoard.player1IsHuman = false;
-          this.style.background= color;
-          possibleSelections[0].style.background= 'none';
-        }
-        else if (this.id === "robot2"){
+         if (this.id === "robot2"){
           gameBoard.player2IsHuman = false;
-          this.style.background = color;
-          possibleSelections[2].style.background = 'none';
-        }
-        else if (this.id === "human1"){
-          gameBoard.player1IsHuman = true;
           this.style.background = color;
           possibleSelections[1].style.background = 'none';
         }
         else if (this.id === "human2"){
           gameBoard.player2IsHuman = true;
           this.style.background = color;
-          possibleSelections[3].style.background = 'none';
+          possibleSelections[2].style.background = 'none';
         }
      });
     }
@@ -76,6 +71,10 @@ const gameBoard = (() => {
 })();
 //plays the game.
 const gameFlow = (() => {
+  const player1 = Player('X'); // X and O can be any char
+  const player2 = Player('O');
+  const _selectX = player1.playerMove();
+  const _selectO = player2.playerMove();
   const _tileArray = gameBoard.tiles;
   const resetButton = document.querySelector("#reset");
   const _robot = () => {
@@ -92,7 +91,6 @@ const gameFlow = (() => {
     
     return (_tileArray[robotsMove]);
   }
-  
   let _noInput = false;
   let _winArrayX = []; // an array for moves of X
   let _winArrayO = []; //an array for moves of O
@@ -153,12 +151,27 @@ const gameFlow = (() => {
       _gameOver('tie');
     }
   };
-  
+  function robotPlayO(){
+    let choice =  _robot(); // bot plays a move, input gets disabled for users.
+    _noInput = true;
+    setTimeout(function(){
+    choice.innerText = `${_selectO}`;
+    _winArrayO.push(choice.id);
+    _player1Turn = true;
+    gameStatus();
+    _noInput = false;
+  }, 700)};
+  function robotPlayX(){ // added if I want to have bots play against themselves in the future.
+    let choice = _robot();
+    choice.innerText = `${select0}`;
+    _winArrayX.push(choice.id);
+    _player1Turn = false;
+    gameStatus();
+  }
   for (let i = 0; i < _tileArray.length; i++) {
     (function(index) {
         _tileArray[index].addEventListener("click", function() {
-        _selectX = player1.playerMove();
-        _selectO = player2.playerMove();
+       
         let that = this; //id's of tiles
           if (_player1Turn === true && that.innerText === '' && _noInput === false){
           this.innerText = `${_selectX}`;
@@ -166,15 +179,9 @@ const gameFlow = (() => {
           _player1Turn = false;
           _robot();
           gameStatus();
-            
           if (gameBoard.player2IsHuman === false && _robot() != undefined && gameOver === false && _noInput === false){
-            let choice =  _robot();
-            choice.innerText = `${_selectO}`;
-             _winArrayO.push(choice.id);
-             _player1Turn = true;
-             gameStatus();
-           } 
-          
+            robotPlayO();
+           }
           }
           else if(that.innerText === '' && _noInput === false && gameBoard.player2IsHuman === true){
           this.innerText = `${_selectO}`;
@@ -200,6 +207,7 @@ const gameFlow = (() => {
     resetButton.addEventListener("click", function(){
       resetValues();
    });
+
   return {resetValues};
   })();
   const _gameOver = (winner) => { // the games ended because of a win or tie, disables game interaction
@@ -208,7 +216,6 @@ const gameFlow = (() => {
     const playAgain = document.getElementById("play-again");
     const newPlayers = document.getElementById("new-players");
     gameOver = true;
-
     resetButton.style.display = 'none';
     gameOverMessage.style.display = 'flex';
     if (winner === 'tie'){
@@ -232,16 +239,7 @@ const gameFlow = (() => {
   });
 }
 return{resetButton, gameOver}})();
-//create a factory for players
-const Player = (value) => {
-  const playerMove = () =>{ 
-    return(value);
-  }
-  // add function here for player name.
-  return{playerMove}
-  }
-  const player1 = Player('X'); // X and O can be any char
-  const player2 = Player('O');
   gameBoard.hideElements();
   gameBoard.whoIsPlaying();
  
+  
